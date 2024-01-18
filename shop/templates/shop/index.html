@@ -23,8 +23,8 @@
 
         .col-md-3 img {
 
-            width: 255px;
-            height: 355px;
+            width: 227px;
+            max-height: 242px;
         }
 
         body .carousel-indicator li {
@@ -38,6 +38,12 @@
         body .carousel-control-prev-icon,
         body .carousel-control-next-icon {
             background-color: blue;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            top: auto;
+            bottom: auto;
         }
 
         body .no-padding {
@@ -87,17 +93,20 @@
         </div>
     </nav>
     <div class="container">
-        <h1>Men Fashion</h1>
-        <div id="demo" class="carousel slide my-3" data-ride="carousel">
+
+        <!--Slideshow starts here -->
+        {% for product, range, nSlides in allProds %}
+        <h5 class="my-4">Flash Sale On {{product.0.category}} - Recommended Items</h5>
+        <div id="demo{{forloop.counter}}" class="carousel slide my-3" data-ride="carousel">
             <ul class="carousel-indicators">
-                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
 
                 {% for i in range %}
-                <li data-target="#demo" data-slide-to="{{i}}"></li>
+                <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}"></li>
                 {% endfor %}
             </ul>
 
-            <!--Slideshow starts here -->
+
             <div class="container carousel-inner no-padding">
 
                 <div class="carousel-item active">
@@ -137,26 +146,28 @@
             </div>
         </div>
         <!-- left and right controls for the slide -->
-        <a class="carousel-control-prev" href="#demo" data-slide="prev">
+        <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
             <span class="carousel-control-prev-icon"></span>
         </a>
-        <a class="carousel-control-next" href="#demo" data-slide="next">
+        <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
             <span class="carousel-control-next-icon"></span>
         </a>
+        {% endfor %}
+    </div>
 
 
 
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-            crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-            crossorigin="anonymous"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
