@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models  import Product
+from .models  import Product,Contact
 from math import ceil
 
 def Home(request):
@@ -18,21 +18,30 @@ def Home(request):
     return render(request,"shop/index.html", params)
 
 def aboutus(request):
-    return HttpResponse("we are at about us")
+    return render(request,"shop/aboutus.html")
 
  
 def contact(request):
-    return HttpResponse("we are at contact us")
+    if request.method=="POST":
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        phone = request.POST.get('phone', '')
+        desc = request.POST.get('desc', '')
+        contact = Contact(name=name, email=email, phone=phone, desc=desc)
+        contact.save()
+    return render(request, 'shop/Contactus.html')
+
 
 def tracker(request):
-    return HttpResponse("we are at tracker")
+    return render(request,"shop/tracker.html")
 
-def productview(request):
-    return HttpResponse("we are at product view")
+def productview(request,myid):
+    product = Product.objects.filter(id=myid)
+    return render(request,"shop/prodview.html" , {'product':product[0]})
 
 def checkout(request):
-    return HttpResponse("we are at checkout page")
+    return render(request,"shop/checkout.html")
 
 def search(request):
-    return HttpResponse("we are at search field")
+    return render(request,"shop/search.html")
  

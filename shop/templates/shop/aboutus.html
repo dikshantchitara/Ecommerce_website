@@ -1,0 +1,117 @@
+{% extends 'shop/basic.html' %}
+
+
+{% block title%} About Us{% endblock %}
+{% block css %} 
+<style>
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        overflow: hidden;
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        color: #fff;
+    }
+
+    #content {
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    #about-us {
+        padding: 40px 0;
+        text-align: center;
+    }
+
+    #about-us h2 {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    #about-us p {
+        font-size: 1.2em;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    #about-us ul {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+    }
+
+    #about-us ul li {
+        margin-bottom: 10px;
+    }
+
+    #falling-text {
+        animation: fallDown 1s ease-in-out;
+    }
+
+    @keyframes fallDown {
+        from {
+            transform: translateY(-100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+
+    #falling-text span {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(-100%);
+        animation: fadeInAndUp 1s ease-in-out forwards;
+    }
+
+    @keyframes fadeInAndUp {
+        from {
+            opacity: 0;
+            transform: translateY(-100%);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+    {% endblock %}
+{% block body %}
+
+
+
+
+<div id="content" style="padding-top: 40px;">
+    <section id="about-us">
+      <div class="container">
+        <h2>About Us</h2>
+        <p>Welcome to [Your Company Name] - your one-stop destination for all your shopping needs. At [Your Company Name], we strive to provide high-quality products and an exceptional shopping experience for our customers.</p>
+
+        <p>Our mission is to [Briefly describe your mission and values]. Whether you are looking for the latest fashion trends, electronics, or home essentials, we've got you covered. We source products from trusted suppliers to ensure that you receive only the best.</p>
+
+        <p>Why choose [Your Company Name]?</p>
+        <ul>
+          <li>Wide range of products to choose from</li>
+          <li>Quality assurance on all our products</li>
+          <li>Secure and easy online shopping experience</li>
+          <li>Fast and reliable delivery</li>
+          <li>Exceptional customer support</li>
+        </ul>
+
+        <p id="falling-text">Our Commitment: <span>Your Satisfaction is Our Priority</span></p>
+      </div>
+    </section>
+  </div>
+
+
+
+
+
+{% endblock %}
