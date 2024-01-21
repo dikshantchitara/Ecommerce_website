@@ -1,26 +1,29 @@
-from django.http import HttpResponse
 from django.shortcuts import render
-from .models  import Orders, Product,Contact
+from .models import Product, Contact, Orders, OrderUpdate
 from math import ceil
+import json
+
+# Create your views here.
+from django.http import HttpResponse
+
 
 def Home(request):
-    products= Product.objects.all()
-    allProds=[]
-    catprods= Product.objects.values('category', 'id')
-    cats= {item["category"] for item in catprods}
+    allProds = []
+    catprods = Product.objects.values('category', 'id')
+    cats = {item['category'] for item in catprods}
     for cat in cats:
-        prod=Product.objects.filter(category=cat)
+        prod = Product.objects.filter(category=cat)
         n = len(prod)
         nSlides = n // 4 + ceil((n / 4) - (n // 4))
         allProds.append([prod, range(1, nSlides), nSlides])
+    params = {'allProds':allProds}
+    return render(request, 'shop/index.html', params)
 
-    params={'allProds':allProds }
-    return render(request,"shop/index.html", params)
 
 def aboutus(request):
-    return render(request,"shop/aboutus.html")
+    return render(request, 'shop/aboutus.html')
 
- 
+
 def contact(request):
     if request.method=="POST":
         name = request.POST.get('name', '')
@@ -33,11 +36,36 @@ def contact(request):
 
 
 def tracker(request):
-    return render(request,"shop/tracker.html")
+    if request.method=="POST":
+        orderId = request.POST.get('orderId', '')
+        email = request.POST.get('email', '')
+        try:
+            order = Orders.objects.filter(order_id=orderId, email=email)
+            if len(order)>0:
+                update = OrderUpdate.objects.filter(order_id=orderId)
+                updates = []
+                for item in update:
+                    updates.append({'text': item.update_desc, 'time': item.timestamp})
+                    response = json.dumps(updates, default=str)
+                return HttpResponse(response)
+            else:
+                return HttpResponse('{}')
+        except Exception as e:
+            return HttpResponse('{}')
 
-def productview(request,myid):
+    return render(request, 'shop/tracker.html')
+
+
+def search(request):
+    return render(request, 'shop/search.html')
+
+
+def productview(request, myid):
+
+    # Fetch the product using the id
     product = Product.objects.filter(id=myid)
-    return render(request,"shop/prodview.html" , {'product':product[0]})
+    return render(request, 'shop/prodView.html', {'product':product[0]})
+
 
 def checkout(request):
     if request.method=="POST":
@@ -52,11 +80,9 @@ def checkout(request):
         order = Orders(items_json=items_json, name=name, email=email, address=address, city=city,
                        state=state, zip_code=zip_code, phone=phone)
         order.save()
+        update = OrderUpdate(order_id=order.order_id, update_desc="The order has been placed")
+        update.save()
         thank = True
         id = order.order_id
         return render(request, 'shop/checkout.html', {'thank':thank, 'id': id})
     return render(request, 'shop/checkout.html')
-
-def search(request):
-    return render(request,"shop/search.html")
- 
